@@ -19,18 +19,35 @@
         <span class="brand-mark" aria-hidden="true">◆</span>
         <span class="brand-name">Mosaic</span>
       </a>
+
+      <div class="nav-search" id="nav-search">
+        <input
+          type="search"
+          id="search-input"
+          placeholder="Search the site..."
+          aria-label="Search this site"
+          autocomplete="off"
+        />
+        <ul class="search-results" id="search-results" hidden></ul>
+      </div>
+
       <button class="nav-toggle" aria-expanded="false" aria-controls="nav-menu" aria-label="Toggle menu">
         <span></span>
         <span></span>
         <span></span>
       </button>
+
       <ul class="nav-menu" id="nav-menu">
         <li><a href="#about">About</a></li>
         <li><a href="#problem">Problem</a></li>
         <li><a href="#product">Product</a></li>
         <li><a href="#shipping">Shipping</a></li>
         <li><a href="#team">Team</a></li>
-        <li><a href="#contact" class="nav-cta">Get in touch</a></li>
+        <li><button class="btn btn-nav" id="login-open" type="button">Log in</button></li>
+        <li class="nav-user" id="nav-user" hidden>
+          <span id="nav-user-name"></span>
+          <button class="btn btn-nav" id="logout" type="button">Log out</button>
+        </li>
       </ul>
     </nav>
   </header>
@@ -39,14 +56,14 @@
     <section class="hero">
       <div class="container hero-inner">
         <span class="eyebrow">Product distribution, rebuilt</span>
-        <h1 class="hero-title">Every piece of <span class="gradient">Mosaic</span> fits together.</h1>
+        <h1 class="hero-title">Every piece of <span class="accent-word">Mosaic</span> fits together.</h1>
         <p class="hero-sub">
           Placeholder for your product pitch. Replace this copy with a short, punchy line
           about what Mosaic sells and why people will love it.
         </p>
         <div class="hero-actions">
           <a href="#product" class="btn btn-primary">Explore the product</a>
-          <a href="#contact" class="btn btn-secondary">Talk to us</a>
+          <a href="#team" class="btn btn-secondary">Talk to us</a>
         </div>
       </div>
     </section>
@@ -133,7 +150,7 @@
               <li>Placeholder feature #2</li>
               <li>Placeholder feature #3</li>
             </ul>
-            <a href="#contact" class="btn btn-primary">Get yours</a>
+            <a href="#team" class="btn btn-primary">Get yours</a>
           </div>
         </div>
       </div>
@@ -150,21 +167,39 @@
         <div class="grid-3">
           <div class="card card-mini">
             <h3>Fast dispatch</h3>
-            <p>Placeholder: typical dispatch time and countries we ship to.</p>
+            <p>Orders leave our hub within 24 hours, every business day.</p>
           </div>
           <div class="card card-mini">
             <h3>Tracked</h3>
-            <p>Placeholder: real-time tracking on every single order.</p>
+            <p>Real-time tracking and delivery updates on every order.</p>
           </div>
           <div class="card card-mini">
             <h3>Easy returns</h3>
-            <p>Placeholder: simple returns policy for peace of mind.</p>
+            <p>Simple 30-day returns for peace of mind on every purchase.</p>
           </div>
+        </div>
+        <div class="shipping-locations">
+          <h3>Where we deliver</h3>
+          <ul class="locations">
+            <li>United States</li>
+            <li>Canada</li>
+            <li>United Kingdom</li>
+            <li>European Union</li>
+            <li>Australia</li>
+            <li>New Zealand</li>
+            <li>Japan</li>
+            <li>United Arab Emirates</li>
+            <li>South Africa</li>
+          </ul>
+          <p class="muted">
+            Edit this list in <code>index.html</code> to match your real shipping routes.
+            International expansion is planned.
+          </p>
         </div>
       </div>
     </section>
 
-    <section class="section" id="team">
+    <section class="section section-alt section-team" id="team">
       <div class="container">
         <span class="eyebrow">Team</span>
         <h2 class="section-title">The people behind Mosaic</h2>
@@ -185,32 +220,29 @@
             <p class="muted">Role placeholder</p>
           </div>
         </div>
-      </div>
-    </section>
 
-    <section class="section section-contact" id="contact">
-      <div class="container">
-        <span class="eyebrow">Contact</span>
-        <h2 class="section-title">Let's build the future</h2>
-        <p class="section-lead">
-          Placeholder contact line — replace with a real email or phone number later.
-        </p>
-        <form class="contact-form" id="contact-form">
-          <div class="form-row">
-            <label for="name">Name</label>
-            <input type="text" id="name" name="name" placeholder="Jane Doe" required />
-          </div>
-          <div class="form-row">
-            <label for="email">Email</label>
-            <input type="email" id="email" name="email" placeholder="jane@example.com" required />
-          </div>
-          <div class="form-row">
-            <label for="message">Message</label>
-            <textarea id="message" name="message" rows="4" placeholder="Tell us what you're interested in." required></textarea>
-          </div>
-          <button type="submit" class="btn btn-primary">Send message</button>
-          <p class="form-status" id="form-status" role="status" aria-live="polite"></p>
-        </form>
+        <div class="get-in-touch">
+          <h3>Get in touch</h3>
+          <p class="section-lead">
+            Placeholder contact line — replace with a real email or phone number later.
+          </p>
+          <form class="contact-form" id="contact-form">
+            <div class="form-row">
+              <label for="name">Name</label>
+              <input type="text" id="name" name="name" placeholder="Jane Doe" required />
+            </div>
+            <div class="form-row">
+              <label for="email">Email</label>
+              <input type="email" id="email" name="email" placeholder="jane@example.com" required />
+            </div>
+            <div class="form-row">
+              <label for="message">Message</label>
+              <textarea id="message" name="message" rows="4" placeholder="Tell us what you're interested in." required></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">Send message</button>
+            <p class="form-status" id="form-status" role="status" aria-live="polite"></p>
+          </form>
+        </div>
       </div>
     </section>
   </main>
@@ -222,10 +254,39 @@
         <a href="#about">About</a>
         <a href="#product">Product</a>
         <a href="#shipping">Shipping</a>
-        <a href="#contact">Contact</a>
+        <a href="#team">Team</a>
       </nav>
     </div>
   </footer>
+
+  <div class="modal" id="auth-modal" hidden>
+    <div class="modal-backdrop" data-auth-close></div>
+    <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="auth-title">
+      <button class="modal-close" type="button" data-auth-close aria-label="Close">&times;</button>
+      <h2 id="auth-title">Log in</h2>
+      <div class="auth-tabs" role="tablist">
+        <button type="button" class="auth-tab" data-tab="login" role="tab" aria-selected="true">Log in</button>
+        <button type="button" class="auth-tab" data-tab="signup" role="tab" aria-selected="false">Create account</button>
+      </div>
+      <form id="auth-form" novalidate>
+        <div class="form-row ok-row" id="signup-name-row">
+          <label for="auth-name">Full name</label>
+          <input type="text" id="auth-name" name="auth-name" placeholder="Jane Doe" />
+        </div>
+        <div class="form-row">
+          <label for="auth-email">Email</label>
+          <input type="email" id="auth-email" name="auth-email" placeholder="jane@example.com" required />
+        </div>
+        <div class="form-row">
+          <label for="auth-password">Password</label>
+          <input type="password" id="auth-password" name="auth-password" placeholder="At least 6 characters" required />
+        </div>
+        <button type="submit" class="btn btn-primary" id="auth-submit">Log in</button>
+        <p class="auth-status" id="auth-status" role="status" aria-live="polite"></p>
+      </form>
+      <p class="auth-note">Demo only — accounts are stored in your browser, not a real database.</p>
+    </div>
+  </div>
 
   <script src="script.js"></script>
 </body>
