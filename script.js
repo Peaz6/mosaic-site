@@ -224,6 +224,7 @@ inboxRefresh.addEventListener("click", loadInbox);
 /* Account login */
 const STORAGE_KEY_USERS = "mosaic_users";
 const STORAGE_KEY_SESSION = "mosaic_session";
+const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 const authModal = document.getElementById("auth-modal");
 const authForm = document.getElementById("auth-form");
@@ -235,7 +236,28 @@ const loginBtn = document.getElementById("login-open");
 const logoutBtn = document.getElementById("logout");
 const navUser = document.getElementById("nav-user");
 const navUserName = document.getElementById("nav-user-name");
+const authNote = document.getElementById("auth-note");
+const forgotLink = document.getElementById("forgot-link");
+const backToLogin1 = document.getElementById("back-to-login");
+const backToLogin2 = document.getElementById("back-to-login-2");
+const backToLogin3 = document.getElementById("back-to-login-3");
+const forgotForm = document.getElementById("forgot-form");
+const forgotStatus = document.getElementById("forgot-status");
+const forgotSubmit = document.getElementById("forgot-submit");
+const forgotEmail = document.getElementById("forgot-email");
+const emailSentTo = document.getElementById("email-sent-to");
+const emailPreviewBody = document.getElementById("email-preview-body");
+const openResetBtn = document.getElementById("open-reset");
+const mailtoReset = document.getElementById("mailto-reset");
+const resetForm = document.getElementById("reset-form");
+const resetStatus = document.getElementById("reset-status");
+const resetSubmitBtn = document.getElementById("reset-submit");
+const authTabs = document.querySelectorAll(".auth-tab");
+
 let authMode = "login";
+let lastFocused = null;
+let resetToken = null;
+const FOCUSABLE = 'button:not([disabled]), input:not([disabled]), textarea:not([disabled]), a[href], [tabindex]:not([tabindex="-1"])';
 
 let localSession = null;
 const staticUsers = JSON.parse(localStorage.getItem(STORAGE_KEY_USERS) || "{}");
@@ -254,6 +276,215 @@ function clearStaticSession() {
   renderAuthState();
 }
 
+const panels = {
+  login: document.getElementById("auth-login-panel"),
+  forgot: document.getElementById("auth-forgot-panel"),
+  email: document.getElementById("auth-email-panel"),
+  reset: document.getElementById("auth-reset-panel"),
+};
+
+function showPanel(name) {
+  Object.values(panels).forEach((p) => (p.hidden = true));
+  panels[name].hidden = false;
+}
+
+function showLogin(tabMode) {
+  authMode = tabMode || authMode;
+  authStatus.textContent = "";
+  authStatus.className = "auth-status";
+  authTabs.forEach((tab) => {
+    const selected = tab.dataset.tab === authMode;
+    tab.setAttribute("aria-selected", String(selected));
+  });
+  nameRow.style.display = authMode === "signup" ? "" : "none";
+  authTitle.textContent = authMode === "signup" ? "Create account" : "Log in";
+  authSubmit.textContent = authMode === "signup" ? "Create account" : "Log in";
+  showPanel("login");
+  setTimeout(() => document.getElementById("auth-email").focus(), 50);
+}
+
+/* Loading helper */
+function setBusy(btn, busy) {
+  btn.disabled = busy;
+  btn.classList.toggle("is-busy", busy);
+}
+
+/* Focus trap */
+authModal.addEventListener("keydown", (event) => {
+  if (event.key !== "Tab" || authModal.hidden) return;
+  const focusables = Array.from(authModal.querySelectorAll(FOCUSABLE)).filter(
+    (el) => el.offsetParent !== null && !el.disabled
+  );
+  if (focusables.length === 0) return;
+  const first = focusables[0];
+  const last = focusables[focusables.length - 1];
+  const active = document.activeElement;
+  if (event.shiftKey) {
+    if (active === first || !authModal.contains(active)) {
+      event.preventDefault();
+      last.focus();
+    }
+  } else if (active === last || !authModal.contains(active)) {
+    event.preventDefault();
+    first.focus();
+  }
+});
+
+function openModal(tabMode) {
+  lastFocused = document.activeElement;
+  showLogin(tabMode);
+  authModal.hidden = false;
+  document.body.style.overflow = "hidden";
+}
+
+function closeModal() {
+  authModal.hidden = true;
+  document.body.style.overflow = "";
+  authForm.reset();
+  forgotForm.reset();
+  resetForm.reset();
+  authStatus.textContent = "";
+  forgotStatus.textContent = "";
+  resetStatus.textContent = "";
+  resetToken = null;
+  if (lastFocused && lastFocused.isConnected) {
+    lastFocused.focus();
+  }
+}
+
+document.querySelectorAll("[data-auth-close]").forEach((el) => {
+  el.addEventListener("click", closeModal);
+});
+
+document.addEventListener("keydown", (event) => {
+  if (event.key === "Escape" && !authModal.hidden) {
+    closeModal();
+  }
+});
+
+authTabs.forEach((tab) => {
+  tab.addEventListener("click", () => showLogin(tab.dataset.tab));
+});
+
+loginBtn.addEventListener("click", () => openModal("login"));
+logoutBtn.addEventListener("click", logout);
+
+/* Password toggle */
+document.querySelectorAll("[data-pwd-toggle]").forEach((toggle) => {
+  toggle.addEventListener("click", () => {
+    const input = toggle.previousElementSibling;
+    const show = input.type === "password";
+    input.type = show ? "text" : "password";
+    toggle.textContent = show ? "Hide" : "Show";
+    toggle.setAttribute("aria-pressed", String(show));
+    input.focus();
+  });
+});
+
+/* Forgot password links */
+forgotLink.addEventListener("click", () => {
+  if (!isLocal()) {
+    authStatus.textContent = "Password reset requires the local SQLite server. Run 'node server.js' locally.";
+    authStatus.className = "auth-status error";
+    return;
+  }
+  forgotStatus.textContent = "";
+  showPanel("forgot");
+  setTimeout(() => forgotEmail.focus(), 50);
+});
+
+backToLogin1.addEventListener("click", () => showLogin(authMode));
+backToLogin2.addEventListener("click", () => showLogin(authMode));
+backToLogin3.addEventListener("click", () => showLogin(authMode));
+
+/* Forgot form */
+forgotForm.addEventListener("submit", async (event) => {
+  event.preventDefault();
+  const email = forgotEmail.value.trim().toLowerCase();
+  forgotStatus.textContent = "";
+  forgotStatus.className = "auth-status";
+
+  if (!email || !EMAIL_RE.test(email)) {
+    forgotStatus.textContent = "Please enter a valid email address.";
+    forgotStatus.className = "auth-status error";
+    return;
+  }
+
+  setBusy(forgotSubmit, true);
+  try {
+    const data = await api("/api/auth/reset/request", { method: "POST", body: { email } });
+    resetToken = data.reset_token || null;
+
+    emailSentTo.textContent = `We sent a reset link to ${email}. Since email delivery isn't wired up yet, here's a preview for the demo:`;
+    const resetUrl = location.origin + location.pathname + "#reset=" + (resetToken || "DEMO_TOKEN");
+    emailPreviewBody.textContent =
+      resetToken
+        ? `You requested a password reset. Click below to choose a new password. The link expires in 30 minutes.`
+        : `If an account exists for ${email}, a reset link was sent. Check your spam folder.`;
+
+    mailtoReset.href = `mailto:${encodeURIComponent(email)}?subject=${encodeURIComponent("Mosaic — reset your password")}&body=${encodeURIComponent("You requested a Mosaic password reset. Use this link within 30 minutes:\n\n" + resetUrl)}`;
+    openResetBtn.disabled = !resetToken;
+    openResetBtn.style.opacity = resetToken ? "1" : "0.4";
+
+    showPanel("email");
+  } catch (err) {
+    forgotStatus.textContent = err.message;
+    forgotStatus.className = "auth-status error";
+  } finally {
+    setBusy(forgotSubmit, false);
+  }
+});
+
+/* Open reset panel from email preview */
+openResetBtn.addEventListener("click", () => {
+  if (!resetToken) return;
+  resetStatus.textContent = "";
+  resetStatus.className = "auth-status";
+  showPanel("reset");
+  setTimeout(() => document.getElementById("reset-password").focus(), 50);
+});
+
+/* Reset form */
+resetForm.addEventListener("submit", async (event) => {
+  event.preventDefault();
+  const password = document.getElementById("reset-password").value;
+  const password2 = document.getElementById("reset-password2").value;
+  resetStatus.textContent = "";
+  resetStatus.className = "auth-status";
+
+  if (password.length < 6) {
+    resetStatus.textContent = "Password must be at least 6 characters.";
+    resetStatus.className = "auth-status error";
+    return;
+  }
+
+  if (password !== password2) {
+    resetStatus.textContent = "Passwords do not match.";
+    resetStatus.className = "auth-status error";
+    return;
+  }
+
+  setBusy(resetSubmitBtn, true);
+  try {
+    await api("/api/auth/reset", { method: "POST", body: { token: resetToken, password } });
+    resetToken = null;
+    resetStatus.textContent = "Password updated! You can now log in.";
+    resetStatus.className = "auth-status success";
+    setTimeout(() => {
+      showLogin("login");
+      authStatus.textContent = "Password updated. Log in with your new password.";
+      authStatus.className = "auth-status success";
+      document.getElementById("auth-password").focus();
+    }, 900);
+  } catch (err) {
+    resetStatus.textContent = err.message;
+    resetStatus.className = "auth-status error";
+  } finally {
+    setBusy(resetSubmitBtn, false);
+  }
+});
+
+/* Main login/signup */
 function renderAuthState() {
   const session = isLocal() ? localSession : getStaticSession();
 
@@ -287,6 +518,11 @@ async function restoreSession() {
     }
   }
   renderAuthState();
+  if (authNote) {
+    authNote.textContent = isLocal()
+      ? "Accounts live in your local SQLite database."
+      : "Demo only — accounts are stored in your browser, not a real database.";
+  }
 }
 
 async function logout() {
@@ -303,56 +539,25 @@ async function logout() {
   renderAuthState();
 }
 
-function openModal(tabMode) {
-  authMode = tabMode;
-  authStatus.textContent = "";
-  authStatus.className = "auth-status";
-  document.querySelectorAll(".auth-tab").forEach((tab) => {
-    const selected = tab.dataset.tab === authMode;
-    tab.setAttribute("aria-selected", String(selected));
-  });
-  nameRow.style.display = authMode === "signup" ? "" : "none";
-  authTitle.textContent = authMode === "signup" ? "Create account" : "Log in";
-  authSubmit.textContent = authMode === "signup" ? "Create account" : "Log in";
-  authModal.hidden = false;
-  document.body.style.overflow = "hidden";
-  setTimeout(() => document.getElementById("auth-email").focus(), 50);
-}
-
-function closeModal() {
-  authModal.hidden = true;
-  document.body.style.overflow = "";
-  authForm.reset();
-}
-
-document.querySelectorAll("[data-auth-close]").forEach((el) => {
-  el.addEventListener("click", closeModal);
-});
-
-document.addEventListener("keydown", (event) => {
-  if (event.key === "Escape" && !authModal.hidden) {
-    closeModal();
-  }
-});
-
-document.querySelectorAll(".auth-tab").forEach((tab) => {
-  tab.addEventListener("click", () => openModal(tab.dataset.tab));
-});
-
-loginBtn.addEventListener("click", () => openModal("login"));
-logoutBtn.addEventListener("click", logout);
-
 authForm.addEventListener("submit", async (event) => {
   event.preventDefault();
 
   const email = authForm["auth-email"].value.trim().toLowerCase();
   const password = authForm["auth-password"].value;
   const name = authForm["auth-name"].value.trim();
+  const remember = document.getElementById("auth-remember").checked;
 
   authStatus.classList.remove("success", "error");
+  authStatus.textContent = "";
 
   if (!email || !password) {
-    authStatus.textContent = "Please enter your email and password.";
+    authStatus.textContent = "Please fill in all fields.";
+    authStatus.classList.add("error");
+    return;
+  }
+
+  if (!EMAIL_RE.test(email)) {
+    authStatus.textContent = "Please enter a valid email address.";
     authStatus.classList.add("error");
     return;
   }
@@ -363,64 +568,75 @@ authForm.addEventListener("submit", async (event) => {
     return;
   }
 
+  setBusy(authSubmit, true);
+
   try {
     if (isLocal()) {
       if (authMode === "signup") {
         if (!name) {
           authStatus.textContent = "Please enter your full name.";
           authStatus.classList.add("error");
+          setBusy(authSubmit, false);
           return;
         }
-        await api("/api/auth/signup", { method: "POST", body: { name, email, password } });
-        authStatus.textContent = "Account created. Welcome!";
-        authStatus.classList.add("success");
+        await api("/api/auth/signup", { method: "POST", body: { name, email, password, remember } });
+        localSession = { name, email };
       } else {
-        await api("/api/auth/login", { method: "POST", body: { email, password } });
-        authStatus.textContent = "Logged in. Welcome back!";
-        authStatus.classList.add("success");
+        await api("/api/auth/login", { method: "POST", body: { email, password, remember } });
+        localSession = { name, email };
       }
-      localSession = { name: name || email, email };
-      closeModal();
-      renderAuthState();
     } else {
       if (authMode === "signup") {
         if (!name) {
           authStatus.textContent = "Please enter your full name.";
           authStatus.classList.add("error");
+          setBusy(authSubmit, false);
           return;
         }
         if (staticUsers[email]) {
           authStatus.textContent = "An account with this email already exists.";
           authStatus.classList.add("error");
+          setBusy(authSubmit, false);
           return;
         }
         staticUsers[email] = { name, password };
         localStorage.setItem(STORAGE_KEY_USERS, JSON.stringify(staticUsers));
         setStaticSession(email, name);
-        authStatus.textContent = "Account created. Welcome!";
-        authStatus.classList.add("success");
       } else {
         const user = staticUsers[email];
         if (!user || user.password !== password) {
           authStatus.textContent = "Incorrect email or password.";
           authStatus.classList.add("error");
+          setBusy(authSubmit, false);
           return;
         }
         setStaticSession(email, user.name);
-        authStatus.textContent = "Logged in. Welcome back!";
-        authStatus.classList.add("success");
       }
-      closeModal();
     }
+
+    closeModal();
+    renderAuthState();
   } catch (err) {
     authStatus.textContent = err.message;
     authStatus.classList.add("error");
+  } finally {
+    setBusy(authSubmit, false);
   }
 });
 
 async function init() {
   await detectMode();
   await restoreSession();
+
+  const hash = location.hash;
+  if (hash.startsWith("#reset=") && isLocal()) {
+    resetToken = decodeURIComponent(hash.slice(7));
+    openModal("login");
+    resetStatus.textContent = "";
+    showPanel("reset");
+    setTimeout(() => document.getElementById("reset-password").focus(), 100);
+    history.replaceState(null, "", location.pathname + location.search);
+  }
 }
 
 init();

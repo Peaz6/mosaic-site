@@ -641,6 +641,169 @@ code {
   color: #dc2626;
 }
 
+/* Password show/hide */
+.pwd-wrap {
+  position: relative;
+}
+
+.pwd-wrap input {
+  width: 100%;
+  padding-right: 4.2rem;
+}
+
+.pwd-toggle {
+  position: absolute;
+  top: 50%;
+  right: 0.4rem;
+  transform: translateY(-50%);
+  background: none;
+  border: 0;
+  color: var(--primary);
+  font-family: inherit;
+  font-weight: 700;
+  font-size: 0.85rem;
+  padding: 0.4rem 0.6rem;
+  cursor: pointer;
+  border-radius: 6px;
+}
+
+.pwd-toggle:hover {
+  color: var(--primary-dark);
+}
+
+/* Form options */
+.form-options {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1.4rem;
+  font-size: 0.9rem;
+}
+
+.remember {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.remember input {
+  width: 16px;
+  height: 16px;
+  accent-color: var(--primary);
+  cursor: pointer;
+  margin: 0;
+}
+
+.link-btn {
+  background: none;
+  border: 0;
+  padding: 0;
+  color: var(--primary);
+  font-family: inherit;
+  font-weight: 700;
+  font-size: 0.9rem;
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.link-btn:hover {
+  color: var(--primary-dark);
+}
+
+/* Auth panels */
+.auth-panel h2 {
+  font-size: 1.4rem;
+  font-weight: 800;
+  color: var(--primary-dark);
+  margin-bottom: 0.6rem;
+}
+
+.auth-hint {
+  color: var(--muted);
+  font-size: 0.95rem;
+  margin-bottom: 1.2rem;
+}
+
+.auth-panel .link-btn {
+  margin-top: 1.1rem;
+}
+
+.email-preview {
+  background: var(--bg-alt);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 1.2rem;
+  margin-bottom: 0.5rem;
+}
+
+.email-preview-subject {
+  font-weight: 700;
+  color: var(--ink);
+  margin-bottom: 0.4rem;
+}
+
+.email-preview-body {
+  font-size: 0.95rem;
+  color: var(--muted);
+  margin-bottom: 1rem;
+  word-break: break-word;
+}
+
+.email-preview .btn {
+  width: 100%;
+}
+
+.mailto-reset {
+  display: block;
+  text-align: center;
+  margin-top: 0.7rem;
+  color: var(--primary);
+  font-weight: 700;
+  font-size: 0.9rem;
+}
+
+.mailto-reset:hover {
+  color: var(--primary-dark);
+}
+
+/* Loading state */
+.btn.is-busy {
+  opacity: 0.7;
+  cursor: progress;
+  pointer-events: none;
+}
+
+.btn.is-busy::after {
+  content: "";
+  display: inline-block;
+  width: 0.85em;
+  height: 0.85em;
+  margin-left: 0.55em;
+  border: 2px solid currentColor;
+  border-top-color: transparent;
+  border-radius: 50%;
+  vertical-align: -0.15em;
+  animation: spin 0.7s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Keyboard focus */
+.modal-card :focus-visible {
+  outline: 3px solid rgba(29, 78, 216, 0.4);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
 /* Auth modal */
 .modal {
   position: fixed;

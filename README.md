@@ -26,7 +26,13 @@ On first run this creates `mosaic.db` with three SQL tables:
 users     -- accounts (scrypt-hashed passwords)
 sessions  -- login sessions (cookies)
 messages  -- contact form submissions (viewable in the Inbox after login)
+password_resets -- 30-minute, single-use tokens for the forgot-password flow
 ```
+
+Auth features in local mode:
+
+- **Remember me** checked → 30-day session cookie; unchecked → session cookie (logs out on browser close)
+- **Forgot password** → full reset flow with a 30-minute, single-use token. No SMTP is wired up, so the reset link is shown in a simulated inbox preview (with an "email myself the link" mailto option) for the demo.
 
 The database file is git-ignored and never leaves your machine. Delete `mosaic.db` to reset everything.
 
