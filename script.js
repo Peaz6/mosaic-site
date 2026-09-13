@@ -25,8 +25,7 @@ const sections = Array.from(document.querySelectorAll("main section[id]"))
     id: section.id,
     title: section.querySelector("h1, h2")?.textContent.trim() || section.id,
     text: section.textContent.replace(/\s+/g, " ").trim(),
-  }))
-  .filter(() => true);
+  }));
 
 function highlight(text, query) {
   const index = text.toLowerCase().indexOf(query.toLowerCase());
@@ -93,29 +92,59 @@ document.addEventListener("keydown", (event) => {
   }
 });
 
+/* Mode detection: local (Node server + SQLite) or static (GitHub Pages) */
+let mode = "static";
+
+async function detectMode() {
+  try {
+    const res = await fetch("/api/health", { method: "GET" });
+    if (res.ok && (await res.json()).mode === "local") {
+      mode = "local";
+      document.documentElement.dataset.mode = "local";
+    }
+  } catch {
+    mode = "static";
+  }
+}
+
+function isLocal() {
+  return mode === "local";
+}
+
+async function api(path, options = {}) {
+  const res = await fetch(path, {
+    method: options.method || "GET",
+    headers: options.body ? { "Content-Type": "application/json" } : undefined,
+    body: options.body ? JSON.stringify(options.body) : undefined,
+  });
+  const data = await res.json().catch(() => ({}));
+  if (!res.ok) {
+    throw new Error(data.error || "Something went wrong.");
+  }
+  return data;
+}
+
 /* Contact form */
 const form = document.getElementById("contact-form");
 const status = document.getElementById("form-status");
 
-form.addEventListener("submit", (event) => {
-  event.preventDefault();
-
-  const name = form.name.value.trim();
-  const email = form.email.value.trim();
-  const message = form.message.value.trim();
-
-  if (!name || !email || !message) {
-    status.textContent = "Please fill in all fields.";
-    status.className = "form-status error";
-    return;
+async function submitLocalMessage(name, email, message) {
+  await api("/api/messages", { method: "POST", body: { name, email, message } });
+  status.textContent = "Message saved to the database. Thanks!";
+  status.className = "form-status success";
+  form.reset();
+  if (!document.getElementById("inbox").hidden) {
+    loadInbox();
   }
+}
 
+function submitStaticMessage(name, email, message) {
   const mailto = `mailto:hello@mosaic.example?subject=${encodeURIComponent(
     `Mosaic enquiry from ${name}`
   )}&body=${encodeURIComponent(`${message}\n\n— ${name} (${email})`)}`;
 
   const sent = window.confirm(
-    "This demo opens your email app. Connect a real address (e.g. via Formspree) to collect submissions automatically."
+    "This demo opens your email app. Run 'node server.js' locally to save messages to a real SQLite database."
   );
   if (sent) {
     window.location.href = mailto;
@@ -124,7 +153,73 @@ form.addEventListener("submit", (event) => {
   status.textContent = "Thanks! Your email app should open.";
   status.className = "form-status success";
   form.reset();
+}
+
+form.addEventListener("submit", async (event) => {
+  event.preventDefault();
+
+  const name = form.name.value.trim();
+  const email = form.email.value.trim();
+  const message = form.message.value.trim();
+
+  status.classList.remove("success", "error");
+
+  if (!name || !email || !message) {
+    status.textContent = "Please fill in all fields.";
+    status.className = "form-status error";
+    return;
+  }
+
+  try {
+    if (isLocal()) {
+      await submitLocalMessage(name, email, message);
+    } else {
+      submitStaticMessage(name, email, message);
+    }
+  } catch (err) {
+    status.textContent = err.message;
+    status.className = "form-status error";
+  }
 });
+
+/* Inbox (local mode only) */
+const inbox = document.getElementById("inbox");
+const inboxList = document.getElementById("inbox-list");
+const inboxRefresh = document.getElementById("inbox-refresh");
+
+function escapeHtml(value) {
+  return String(value)
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#39;");
+}
+
+async function loadInbox() {
+  if (!isLocal()) return;
+  try {
+    const messages = await api("/api/messages");
+    inbox.hidden = false;
+    if (messages.length === 0) {
+      inboxList.innerHTML = "<li class='inbox-empty'>No messages yet.</li>";
+      return;
+    }
+    inboxList.innerHTML = messages
+      .map(
+        (m) =>
+          `<li class="inbox-item">
+            <p class="inbox-meta"><strong>${escapeHtml(m.name)}</strong> &lt;${escapeHtml(m.email)}&gt; · ${escapeHtml(m.created_at)}</p>
+            <p class="inbox-body">${escapeHtml(m.message)}</p>
+          </li>`
+      )
+      .join("");
+  } catch {
+    inbox.hidden = true;
+  }
+}
+
+inboxRefresh.addEventListener("click", loadInbox);
 
 /* Account login */
 const STORAGE_KEY_USERS = "mosaic_users";
@@ -142,25 +237,26 @@ const navUser = document.getElementById("nav-user");
 const navUserName = document.getElementById("nav-user-name");
 let authMode = "login";
 
-const users = JSON.parse(localStorage.getItem(STORAGE_KEY_USERS) || "{}");
+let localSession = null;
+const staticUsers = JSON.parse(localStorage.getItem(STORAGE_KEY_USERS) || "{}");
 
-function getSession() {
+function getStaticSession() {
   return JSON.parse(localStorage.getItem(STORAGE_KEY_SESSION) || "null");
 }
 
-function setSession(email, name) {
+function setStaticSession(email, name) {
   localStorage.setItem(STORAGE_KEY_SESSION, JSON.stringify({ email, name }));
   renderAuthState();
-  closeModal();
 }
 
-function clearSession() {
+function clearStaticSession() {
   localStorage.removeItem(STORAGE_KEY_SESSION);
   renderAuthState();
 }
 
 function renderAuthState() {
-  const session = getSession();
+  const session = isLocal() ? localSession : getStaticSession();
+
   if (session) {
     loginBtn.hidden = true;
     navUser.hidden = false;
@@ -169,10 +265,46 @@ function renderAuthState() {
     loginBtn.hidden = false;
     navUser.hidden = true;
   }
+
+  if (isLocal()) {
+    if (session) {
+      loadInbox();
+    } else {
+      inbox.hidden = true;
+    }
+  } else {
+    inbox.hidden = true;
+  }
 }
 
-function openModal(mode) {
-  authMode = mode;
+async function restoreSession() {
+  if (isLocal()) {
+    try {
+      const me = await api("/api/auth/me");
+      localSession = { name: me.name, email: me.email };
+    } catch {
+      localSession = null;
+    }
+  }
+  renderAuthState();
+}
+
+async function logout() {
+  if (isLocal()) {
+    try {
+      await api("/api/auth/logout", { method: "POST" });
+    } catch {
+      /* ignore */
+    }
+    localSession = null;
+  } else {
+    clearStaticSession();
+  }
+  renderAuthState();
+}
+
+function openModal(tabMode) {
+  authMode = tabMode;
   authStatus.textContent = "";
   authStatus.className = "auth-status";
   document.querySelectorAll(".auth-tab").forEach((tab) => {
@@ -208,9 +340,9 @@ document.querySelectorAll(".auth-tab").forEach((tab) => {
 });
 
 loginBtn.addEventListener("click", () => openModal("login"));
-logoutBtn.addEventListener("click", clearSession);
+logoutBtn.addEventListener("click", logout);
 
-authForm.addEventListener("submit", (event) => {
+authForm.addEventListener("submit", async (event) => {
   event.preventDefault();
 
   const email = authForm["auth-email"].value.trim().toLowerCase();
@@ -219,7 +351,7 @@ authForm.addEventListener("submit", (event) => {
 
   authStatus.classList.remove("success", "error");
 
-  if (!email || !password || (authMode === "signup" && email.length < 3)) {
+  if (!email || !password) {
     authStatus.textContent = "Please enter your email and password.";
     authStatus.classList.add("error");
     return;
@@ -231,33 +363,64 @@ authForm.addEventListener("submit", (event) => {
     return;
   }
 
-  if (authMode === "signup") {
-    if (!name) {
-      authStatus.textContent = "Please enter your full name.";
-      authStatus.classList.add("error");
-      return;
+  try {
+    if (isLocal()) {
+      if (authMode === "signup") {
+        if (!name) {
+          authStatus.textContent = "Please enter your full name.";
+          authStatus.classList.add("error");
+          return;
+        }
+        await api("/api/auth/signup", { method: "POST", body: { name, email, password } });
+        authStatus.textContent = "Account created. Welcome!";
+        authStatus.classList.add("success");
+      } else {
+        await api("/api/auth/login", { method: "POST", body: { email, password } });
+        authStatus.textContent = "Logged in. Welcome back!";
+        authStatus.classList.add("success");
+      }
+      localSession = { name: name || email, email };
+      closeModal();
+      renderAuthState();
+    } else {
+      if (authMode === "signup") {
+        if (!name) {
+          authStatus.textContent = "Please enter your full name.";
+          authStatus.classList.add("error");
+          return;
+        }
+        if (staticUsers[email]) {
+          authStatus.textContent = "An account with this email already exists.";
+          authStatus.classList.add("error");
+          return;
+        }
+        staticUsers[email] = { name, password };
+        localStorage.setItem(STORAGE_KEY_USERS, JSON.stringify(staticUsers));
+        setStaticSession(email, name);
+        authStatus.textContent = "Account created. Welcome!";
+        authStatus.classList.add("success");
+      } else {
+        const user = staticUsers[email];
+        if (!user || user.password !== password) {
+          authStatus.textContent = "Incorrect email or password.";
+          authStatus.classList.add("error");
+          return;
+        }
+        setStaticSession(email, user.name);
+        authStatus.textContent = "Logged in. Welcome back!";
+        authStatus.classList.add("success");
+      }
+      closeModal();
     }
-    if (users[email]) {
-      authStatus.textContent = "An account with this email already exists.";
-      authStatus.classList.add("error");
-      return;
-    }
-    users[email] = { name, password };
-    localStorage.setItem(STORAGE_KEY_USERS, JSON.stringify(users));
-    setSession(email, name);
-    authStatus.textContent = "Account created. Welcome!";
-    authStatus.classList.add("success");
-  } else {
-    const user = users[email];
-    if (!user || user.password !== password) {
-      authStatus.textContent = "Incorrect email or password.";
-      authStatus.classList.add("error");
-      return;
-    }
-    setSession(email, user.name);
-    authStatus.textContent = "Logged in. Welcome back!";
-    authStatus.classList.add("success");
+  } catch (err) {
+    authStatus.textContent = err.message;
+    authStatus.classList.add("error");
   }
 });
 
-renderAuthState();
+async function init() {
+  await detectMode();
+  await restoreSession();
+}
+
+init();
