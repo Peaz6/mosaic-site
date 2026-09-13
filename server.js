@@ -158,6 +158,11 @@ async function handleApi(req, res, url) {
     const password = String(body.password || "");
     const remember = Boolean(body.remember);
 
+    if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      sendJson(res, 400, { error: "Please enter a valid email address." });
+      return;
+    }
+
     const user = db.prepare("SELECT * FROM users WHERE email = ?").get(email);
     if (!user || hashPassword(password, user.salt) !== user.password_hash) {
       sendJson(res, 401, { error: "Incorrect email or password." });
