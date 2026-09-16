@@ -1277,6 +1277,13 @@ button[type="submit"] {
     display: flex;
   }
 
+  .grid-2,
+  .grid-3,
+  .product-grid,
+  .steps {
+    grid-template-columns: 1fr;
+  }
+
   .nav-search {
     order: 3;
     max-width: none;
@@ -1329,5 +1336,50 @@ button[type="submit"] {
   .footer-inner {
     flex-direction: column;
     text-align: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero {
+    padding: 4.5rem 0 3.5rem;
+  }
+
+  .page-hero {
+    padding: 3rem 0 2.25rem;
+  }
+
+  .section {
+    padding: 3.5rem 0;
+  }
+
+  .section-title {
+    padding-left: 0.95rem;
+  }
+
+  .modal-card {
+    padding: 1.5rem 1.1rem;
+  }
+
+  .cart-item {
+    grid-template-columns: 1fr;
+    align-items: start;
+  }
+
+  .cart-item-actions {
+    justify-content: flex-start;
+  }
+
+  .product-card {
+    padding: 1.1rem;
+  }
+
+  .form-row input,
+  .form-row textarea,
+  input[type="text"],
+  input[type="email"],
+  input[type="password"],
+  input[type="search"],
+  textarea {
+    font-size: 16px;
   }
 }
