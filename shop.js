@@ -65,6 +65,11 @@
     deliveryEl.textContent = delivery === 0 && subtotal > 0 ? "Free" : money(delivery);
     totalEl.textContent = money(subtotal + delivery);
     freeDeliveryEl.hidden = delivery === 0;
+
+    Object.keys(ITEMS).forEach(function (id) {
+      var countEl = document.getElementById("count-" + id);
+      if (countEl) countEl.textContent = cart[id] || 0;
+    });
   }
 
   function add(id, qty) {
@@ -72,13 +77,18 @@
     render();
   }
 
-  document.querySelectorAll(".btn-add").forEach(function (btn) {
-    btn.addEventListener("click", function () {
-      var id = btn.dataset.add;
-      var input = document.getElementById("qty-" + id);
-      var qty = parseInt(input.value, 10);
-      if (!qty || qty < 1) qty = 1;
-      add(id, qty);
+  function minus(id) {
+    var cur = cart[id] || 0;
+    if (cur <= 1) delete cart[id];
+    else cart[id] = cur - 1;
+    render();
+  }
+
+  document.querySelectorAll(".stepper").forEach(function (stepper) {
+    stepper.addEventListener("click", function (event) {
+      var t = event.target;
+      if (t.dataset.plus) add(t.dataset.plus, 1);
+      else if (t.dataset.minus) minus(t.dataset.minus);
     });
   });
 

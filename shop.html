@@ -79,12 +79,11 @@
             </div>
             <div class="product-info">
               <h3>Mohinga</h3>
-              <p class="dish-note">The national fish-noodle soup, served the old way.</p>
-              <p class="price"><span>$</span><span data-price>12</span></p>
-              <div class="buy-row">
-                <label class="qty-label" for="qty-mohinga">How many?</label>
-                <input class="qty-input" type="number" id="qty-mohinga" min="1" value="1" inputmode="numeric" />
-                <button type="button" class="btn btn-primary btn-add" data-add="mohinga">Add to order</button>
+              <p class="price">$12</p>
+              <div class="stepper" role="group" aria-label="Mohinga quantity">
+                <button type="button" class="stepper-btn" data-minus="mohinga" aria-label="Remove Mohinga">-</button>
+                <span class="stepper-count" id="count-mohinga">0</span>
+                <button type="button" class="stepper-btn" data-plus="mohinga" aria-label="Add Mohinga">+</button>
               </div>
             </div>
           </article>
@@ -96,12 +95,11 @@
             </div>
             <div class="product-info">
               <h3>Tea leaf salad</h3>
-              <p class="dish-note">Laphet thoke — fermented tea leaf salad, bright and earthy.</p>
-              <p class="price"><span>$</span><span data-price>9</span></p>
-              <div class="buy-row">
-                <label class="qty-label" for="qty-laphet">How many?</label>
-                <input class="qty-input" type="number" id="qty-laphet" min="1" value="1" inputmode="numeric" />
-                <button type="button" class="btn btn-primary btn-add" data-add="laphet">Add to order</button>
+              <p class="price">$9</p>
+              <div class="stepper" role="group" aria-label="Tea leaf salad quantity">
+                <button type="button" class="stepper-btn" data-minus="laphet" aria-label="Remove Tea leaf salad">-</button>
+                <span class="stepper-count" id="count-laphet">0</span>
+                <button type="button" class="stepper-btn" data-plus="laphet" aria-label="Add Tea leaf salad">+</button>
               </div>
             </div>
           </article>

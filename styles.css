@@ -496,33 +496,52 @@ code {
 
 .price {
   font-family: var(--serif);
-  font-size: 1.5rem;
-  font-weight: 600;
+  font-size: 2.4rem;
+  font-weight: 700;
   color: var(--gold);
-  margin: 0.4rem 0;
+  margin: 0.2rem 0 0.8rem;
 }
 
-.buy-row {
-  display: flex;
+.stepper {
+  display: inline-flex;
   align-items: center;
-  gap: 0.6rem;
-  flex-wrap: wrap;
-  margin-top: 0.5rem;
+  border: 1px solid var(--line);
+  overflow: hidden;
 }
 
-.qty-label {
-  font-size: 0.8rem;
-  color: var(--muted);
+.stepper-btn {
+  width: 2.5rem;
+  height: 2.5rem;
+  display: grid;
+  place-items: center;
+  background: transparent;
+  border: 0;
+  color: var(--cream);
+  font-size: 1.2rem;
+  cursor: pointer;
+  font-family: var(--sans);
 }
 
-.qty-input {
-  width: 4rem;
+.stepper-btn:hover {
+  background: var(--gold-soft);
+  color: var(--gold);
 }
 
-.btn-add {
-  padding: 0.5rem 1.1rem;
-  font-size: 0.8rem;
-  border-radius: 0;
+.stepper-btn:first-child {
+  border-right: 1px solid var(--line);
+}
+
+.stepper-btn:last-child {
+  border-left: 1px solid var(--line);
+}
+
+.stepper-count {
+  min-width: 2.5rem;
+  text-align: center;
+  font-weight: 700;
+  font-family: var(--serif);
+  font-size: 1.1rem;
+  padding: 0 0.25rem;
 }
 
 .shop-grid {
