@@ -3,7 +3,6 @@
 
   var ITEMS = {
     mohinga: { name: "Mohinga", price: 12 },
-    curry: { name: "Northeastern curry", price: 16 },
     laphet: { name: "Tea leaf salad", price: 9 },
   };
   var FREE_DELIVERY_OVER = 40;

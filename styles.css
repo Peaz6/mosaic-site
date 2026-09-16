@@ -134,7 +134,7 @@ a:hover {
   width: 100%;
   background: var(--panel);
   border: 1px solid var(--line);
-  border-radius: 999px;
+  border-radius: 999px 0 999px 0;
   padding: 0.5rem 1rem;
   color: var(--cream);
   font-family: var(--sans);
@@ -159,7 +159,7 @@ a:hover {
   list-style: none;
   background: var(--bg-alt);
   border: 1px solid var(--line);
-  border-radius: 12px;
+  border-radius: 12px 0 12px 0;
   overflow: hidden;
   box-shadow: var(--shadow);
 }
@@ -240,7 +240,7 @@ a:hover {
 .btn {
   display: inline-block;
   padding: 0.65rem 1.5rem;
-  border-radius: 999px;
+  border-radius: 999px 0 999px 0;
   font-size: 0.9rem;
   font-family: var(--sans);
   letter-spacing: 0.03em;
@@ -440,7 +440,7 @@ code {
   background: var(--panel);
   border: 1px solid var(--line);
   padding: 0.1rem 0.4rem;
-  border-radius: 6px;
+  border-radius: 6px 0 6px 0;
   font-size: 0.85em;
   color: var(--gold);
 }
@@ -463,7 +463,7 @@ code {
 .card {
   background: var(--bg-alt);
   border: 1px solid var(--line);
-  border-radius: 14px;
+  border-radius: 14px 0 14px 0;
   padding: 1.6rem;
   transition: border-color 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease;
 }
@@ -557,7 +557,7 @@ code {
   gap: 0.6rem 1rem;
   align-items: center;
   border: 1px solid var(--line);
-  border-radius: 10px;
+  border-radius: 10px 0 10px 0;
   padding: 0.7rem 0.9rem;
 }
 
@@ -589,7 +589,7 @@ code {
   place-items: center;
   background: var(--panel);
   border: 1px solid var(--line);
-  border-radius: 6px;
+  border-radius: 6px 0 6px 0;
   color: var(--gold);
   font-family: var(--sans);
   font-size: 1rem;
@@ -722,7 +722,7 @@ code {
   align-items: center;
   background: var(--bg-alt);
   border: 1px solid var(--line);
-  border-radius: 18px;
+  border-radius: 18px 0 18px 0;
   padding: 1.6rem;
   transition: border-color 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease;
 }
@@ -742,14 +742,14 @@ code {
 .product-visual {
   position: relative;
   aspect-ratio: 1;
-  border-radius: 14px;
+  border-radius: 14px 0 14px 0;
   background: radial-gradient(circle at 30% 30%, rgba(217, 164, 65, 0.25), rgba(163, 59, 46, 0.12) 60%, transparent);
   overflow: hidden;
 }
 
 .tile {
   position: absolute;
-  border-radius: 12px;
+  border-radius: 12px 0 12px 0;
   opacity: 0.85;
 }
 
@@ -917,7 +917,7 @@ textarea {
   width: 100%;
   background: var(--panel);
   border: 1px solid var(--line);
-  border-radius: 10px;
+  border-radius: 10px 0 10px 0;
   padding: 0.7rem 0.95rem;
   color: var(--cream);
   font-family: var(--sans);
@@ -966,7 +966,7 @@ textarea::placeholder {
   margin: 3rem auto 0;
   background: var(--bg-alt);
   border: 1px solid var(--line);
-  border-radius: 14px;
+  border-radius: 14px 0 14px 0;
   padding: 1.75rem;
 }
 
@@ -993,7 +993,7 @@ textarea::placeholder {
 
 .inbox-item {
   border: 1px solid var(--line);
-  border-radius: 10px;
+  border-radius: 10px 0 10px 0;
   padding: 0.9rem 1.1rem;
 }
 
@@ -1073,7 +1073,7 @@ textarea::placeholder {
   max-width: 420px;
   background: var(--bg-alt);
   border: 1px solid var(--gold);
-  border-radius: 18px;
+  border-radius: 18px 0 18px 0;
   padding: 2rem 1.75rem;
   box-shadow: var(--shadow);
   max-height: 92vh;
@@ -1092,7 +1092,7 @@ textarea::placeholder {
   line-height: 1;
   cursor: pointer;
   padding: 0.35rem;
-  border-radius: 8px;
+  border-radius: 8px 0 8px 0;
 }
 
 .modal-close:hover {
@@ -1119,14 +1119,14 @@ textarea::placeholder {
   gap: 0.5rem;
   background: var(--panel);
   border: 1px solid var(--line);
-  border-radius: 999px;
+  border-radius: 999px 0 999px 0;
   padding: 0.25rem;
 }
 
 .auth-tab {
   background: none;
   border: 0;
-  border-radius: 999px;
+  border-radius: 999px 0 999px 0;
   padding: 0.5rem;
   color: var(--muted);
   font-family: var(--sans);
@@ -1220,7 +1220,7 @@ button[type="submit"] {
 .email-preview {
   background: var(--panel);
   border: 1px solid var(--line);
-  border-radius: 12px;
+  border-radius: 12px 0 12px 0;
   padding: 1rem 1.25rem;
   display: grid;
   gap: 0.6rem;
