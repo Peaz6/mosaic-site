@@ -2,11 +2,11 @@
   "use strict";
 
   var ITEMS = {
-    mohinga: { name: "Mohinga", price: 12 },
-    laphet: { name: "Tea leaf salad", price: 9 },
+    mohinga: { name: "Mohinga", price: 12000 },
+    laphet: { name: "Tea leaf salad", price: 9000 },
   };
-  var FREE_DELIVERY_OVER = 40;
-  var DELIVERY_FEE = 4;
+  var FREE_DELIVERY_OVER = 40000;
+  var DELIVERY_FEE = 4000;
 
   var cart = {};
   var listEl = document.getElementById("cart-list");
@@ -19,7 +19,7 @@
   var form = document.getElementById("order-form");
 
   function money(n) {
-    return "$" + n.toFixed(2);
+    return "K " + Math.round(n).toLocaleString("en-US");
   }
 
   function buyable() {
