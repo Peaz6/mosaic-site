@@ -143,7 +143,7 @@ if (form && status) {
   function submitStaticMessage(name, email, message) {
     const mailto = `mailto:hello@reminisce.example?subject=${encodeURIComponent(
       `Reminisce enquiry from ${name}`
-    )}&body=${encodeURIComponent(`${message}\n\n— ${name} (${email})`)}`;
+    )}&body=${encodeURIComponent(`${message}\n\n ${name} (${email})`)}`;
 
     const sent = window.confirm(
       "This demo opens your email app. Run 'node server.js' locally to save messages to a real SQLite database."
@@ -426,7 +426,7 @@ forgotForm.addEventListener("submit", async (event) => {
         ? `You requested a password reset. Click below to choose a new password. The link expires in 30 minutes.`
         : `If an account exists for ${email}, a reset link was sent. Check your spam folder.`;
 
-    mailtoReset.href = `mailto:${encodeURIComponent(email)}?subject=${encodeURIComponent("Reminisce — reset your password")}&body=${encodeURIComponent("You requested a Reminisce password reset. Use this link within 30 minutes:\n\n" + resetUrl)}`;
+    mailtoReset.href = `mailto:${encodeURIComponent(email)}?subject=${encodeURIComponent("Reminisce reset your password")}&body=${encodeURIComponent("You requested a Reminisce password reset. Use this link within 30 minutes:\n\n" + resetUrl)}`;
     openResetBtn.disabled = !resetToken;
     openResetBtn.style.opacity = resetToken ? "1" : "0.4";
 

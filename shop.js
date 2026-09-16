@@ -128,7 +128,7 @@
     statusEl.classList.remove("success", "error");
 
     if (Object.keys(cart).length === 0) {
-      statusEl.textContent = "Your order is empty — add a dish first.";
+      statusEl.textContent = "Your order is empty. Add a dish first.";
       statusEl.className = "form-status error";
       return;
     }
@@ -152,7 +152,7 @@
     })
       .then(function (res) {
         if (!res.ok) throw new Error("static");
-        statusEl.textContent = "Order placed! It's waiting in our inbox — we'll confirm by email.";
+        statusEl.textContent = "Order placed! It's waiting in our inbox. We'll confirm by email.";
         statusEl.className = "form-status success";
         form.reset();
         cart = {};
