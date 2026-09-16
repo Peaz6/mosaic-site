@@ -241,7 +241,6 @@ const loginBtn = document.getElementById("login-open");
 const logoutBtn = document.getElementById("logout");
 const navUser = document.getElementById("nav-user");
 const navUserName = document.getElementById("nav-user-name");
-const authNote = document.getElementById("auth-note");
 const forgotLink = document.getElementById("forgot-link");
 const backToLogin1 = document.getElementById("back-to-login");
 const backToLogin2 = document.getElementById("back-to-login-2");
@@ -523,11 +522,6 @@ async function restoreSession() {
     }
   }
   renderAuthState();
-  if (authNote) {
-    authNote.textContent = isLocal()
-      ? "Accounts live in your local SQLite database."
-      : "Demo only — accounts are stored in your browser, not a real database.";
-  }
 }
 
 async function logout() {
