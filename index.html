@@ -3,11 +3,11 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Mosaic — your product goes here." />
-  <title>Mosaic</title>
+  <meta name="description" content="Reminisce — the taste of home. Recipes, memory, and the warmth that only a home kitchen can give you." />
+  <title>Reminisce — A taste of home</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
@@ -16,8 +16,10 @@
   <header class="site-header">
     <nav class="nav container" aria-label="Primary">
       <a class="brand" href="#">
-        <span class="brand-mark" aria-hidden="true">◆</span>
-        <span class="brand-name">Mosaic</span>
+        <svg class="brand-mark" viewBox="0 0 24 24" width="22" height="22" aria-hidden="true">
+          <path d="M12 2c1.4 1 2 2.2 2 3.6V8c2.2.6 3.6 2.4 3.6 4.8 0 2.5-2 4.6-4.6 4.6h-1v4.2l-2-1-2 1V17c-2.3-.4-4-2.2-4-4.6C4 10.4 5.4 8.6 7.6 8V5.6c0-1.4.6-2.6 2-3.6L12 2Z" />
+        </svg>
+        <span class="brand-name">Reminisce</span>
       </a>
 
       <div class="nav-search" id="nav-search">
@@ -39,7 +41,7 @@
 
       <ul class="nav-menu" id="nav-menu">
         <li><a href="#about">About</a></li>
-        <li><a href="#product">Product</a></li>
+        <li><a href="#product">Our food</a></li>
         <li><button class="btn btn-nav" id="login-open" type="button">Log in</button></li>
         <li class="nav-user" id="nav-user" hidden>
           <span id="nav-user-name"></span>
@@ -52,15 +54,15 @@
   <main id="main">
     <section class="hero">
       <div class="container hero-inner">
-        <span class="eyebrow">Product distribution, rebuilt</span>
-        <h1 class="hero-title">Every piece of <span class="accent-word">Mosaic</span> fits together.</h1>
+        <span class="eyebrow">A taste of home</span>
+        <h1 class="hero-title">Every dish remembers a <span class="accent-word">home</span>.</h1>
         <p class="hero-sub">
-          Placeholder for your product pitch. Replace this copy with a short, punchy line
-          about what Mosaic sells and why people will love it.
+          Reminisce brings the warmth of a family table to your door — recipes passed down,
+          cooked slowly, and shipped to the moment they taste like memory.
         </p>
         <div class="hero-actions">
-          <a href="#product" class="btn btn-primary">Explore the product</a>
-          <a href="#team" class="btn btn-secondary">Talk to us</a>
+          <a href="#product" class="btn btn-primary">Taste the menu</a>
+          <a href="#team" class="btn btn-secondary">Tell us your story</a>
         </div>
       </div>
     </section>
@@ -68,20 +70,22 @@
     <section class="section" id="about">
       <div class="container">
         <span class="eyebrow">About</span>
-        <h2 class="section-title">Why Mosaic?</h2>
+        <h2 class="section-title">Why Reminisce?</h2>
         <div class="grid-2">
           <div class="card">
             <h3>Our story</h3>
             <p>
-              Placeholder for the founding story — who started Mosaic, when, and why the
-              name matters. A short paragraph that connects your team to your mission.
+              Reminisce began on a slow afternoon in a small kitchen, frying what smelled like
+              childhood. Every recipe here is someone's memory — a grandmother's curry, a
+              mother's sweets — kept alive one plate at a time.
             </p>
           </div>
           <div class="card">
             <h3>Our mission</h3>
             <p>
-              Placeholder for the mission statement — the change you want to make in the
-              world and how Mosaic moves the needle for customers every single day.
+              To give every home a dish that carries it back to another one. We cook with the
+              flavors we grew up on, so a single bite can feel like arriving somewhere you
+              belong.
             </p>
           </div>
         </div>
@@ -96,30 +100,32 @@
           <div>
             <h3>The problem</h3>
             <p>
-              Placeholder for the pain point your customers feel today — what they lose in
-              time, money, or convenience without a solution like Mosaic.
+              Busy days pull us away from the table. Meals become quick and forgettable, and
+              the flavors of home slip out of reach — too far, too hard, too time-consuming to
+              find again.
             </p>
           </div>
           <div>
             <h3>Our solution</h3>
             <p>
-              Placeholder for how Mosaic fixes it — clearly and simply, in one or two
-              sentences a judge can repeat back to you.
+              Reminisce captures those flavors and brings them to you — authentic family
+              recipes, cooked the way they've always been cooked, and delivered while the
+              warmth is still in them.
             </p>
           </div>
         </div>
         <div class="steps">
           <div class="step">
             <span class="step-num">01</span>
-            <p>Placeholder: first step a customer takes</p>
+            <p>Choose a dish that calls to you — something from your own table.</p>
           </div>
           <div class="step">
             <span class="step-num">02</span>
-            <p>Placeholder: second step of the experience</p>
+            <p>We cook it slow, the old way, in small batches, from real kitchens.</p>
           </div>
           <div class="step">
             <span class="step-num">03</span>
-            <p>Placeholder: the payoff customers get</p>
+            <p>The box arrives warm, and one bite carries you home.</p>
           </div>
         </div>
       </div>
@@ -128,7 +134,7 @@
     <section class="section" id="product">
       <div class="container">
         <span class="eyebrow">Product</span>
-        <h2 class="section-title">Meet the product</h2>
+        <h2 class="section-title">Meet the dish</h2>
         <div class="product-card">
           <div class="product-visual" aria-hidden="true">
             <div class="tile tile-1"></div>
@@ -137,39 +143,40 @@
             <div class="tile tile-4"></div>
           </div>
           <div class="product-info">
-            <h3>Your product name here</h3>
+            <h3>Today's memory: Northeastern curry</h3>
             <p>
-              Placeholder for the product description — what it is, what it does, and why
-              it stands out from everything else in the market today.
+              A slow-cooked curry built on the flavors of home — earthy, fragrant, and simmered
+              the way it has been for generations. Served with steamed rice and a quiet kind of
+              happiness.
             </p>
             <ul class="feature-list">
-              <li>Placeholder feature #1</li>
-              <li>Placeholder feature #2</li>
-              <li>Placeholder feature #3</li>
+              <li>Family recipe, passed down three generations</li>
+              <li>Slow-cooked in small, careful batches</li>
+              <li>Arrives warm, ready to be the best thing on your table</li>
             </ul>
-            <a href="#team" class="btn btn-primary">Get yours</a>
+            <a href="#team" class="btn btn-primary">Order a taste</a>
           </div>
         </div>
 
         <div class="shipping-block">
-          <span class="eyebrow">Shipping</span>
-          <h3 class="sub-title">We deliver, fast</h3>
+          <span class="eyebrow">Delivery</span>
+          <h3 class="sub-title">We bring it warm</h3>
           <p class="section-lead">
-            Placeholder for your shipping promise. Example: orders ship from our hub within
-            24 hours, with tracking on every package and easy returns.
+            Every order leaves our kitchen the morning it's eaten. No warehouses, no shortcuts —
+            just food timed to arrive the moment it tastes right.
           </p>
           <div class="grid-3">
             <div class="card card-mini">
-              <h3>Fast dispatch</h3>
-              <p>Orders leave our hub within 24 hours, every business day.</p>
+              <h3>Same-day from the kitchen</h3>
+              <p>Cooked fresh and dispatched within hours, every single day.</p>
             </div>
             <div class="card card-mini">
-              <h3>Tracked</h3>
-              <p>Real-time tracking and delivery updates on every order.</p>
+              <h3>Tracked to your door</h3>
+              <p>Follow your order from our stove to your doorstep, live.</p>
             </div>
             <div class="card card-mini">
-              <h3>Easy returns</h3>
-              <p>Simple 30-day returns for peace of mind on every purchase.</p>
+              <h3>Warm on arrival</h3>
+              <p>Insulated and sealed so the first bite tastes like right now.</p>
             </div>
           </div>
           <div class="shipping-locations">
@@ -186,8 +193,8 @@
               <li>South Africa</li>
             </ul>
             <p class="muted">
-              Edit this list in <code>index.html</code> to match your real shipping routes.
-              International expansion is planned.
+              Edit this list in <code>index.html</code> to match your real delivery routes.
+              New cities are added every season.
             </p>
           </div>
         </div>
@@ -197,29 +204,29 @@
     <section class="section section-alt section-team" id="team">
       <div class="container">
         <span class="eyebrow">Team</span>
-        <h2 class="section-title">The people behind Mosaic</h2>
+        <h2 class="section-title">The people behind the kitchen</h2>
         <div class="grid-3">
           <div class="card card-member">
             <div class="avatar" aria-hidden="true">A</div>
             <h3>Your name</h3>
-            <p class="muted">Founder & CEO</p>
+            <p class="muted">Head of the kitchen</p>
           </div>
           <div class="card card-member">
             <div class="avatar" aria-hidden="true">B</div>
             <h3>Teammate one</h3>
-            <p class="muted">Role placeholder</p>
+            <p class="muted">Keeper of recipes</p>
           </div>
           <div class="card card-member">
             <div class="avatar" aria-hidden="true">C</div>
             <h3>Teammate two</h3>
-            <p class="muted">Role placeholder</p>
+            <p class="muted">Taster in chief</p>
           </div>
         </div>
 
         <div class="get-in-touch">
           <h3>Get in touch</h3>
           <p class="section-lead">
-            Placeholder contact line — replace with a real email or phone number later.
+            Share the dish your home remembers — or say hello. We read everything.
           </p>
           <form class="contact-form" id="contact-form">
             <div class="form-row">
@@ -232,7 +239,7 @@
             </div>
             <div class="form-row">
               <label for="message">Message</label>
-              <textarea id="message" name="message" rows="4" placeholder="Tell us what you're interested in." required></textarea>
+              <textarea id="message" name="message" rows="4" placeholder="Tell us what home tastes like to you." required></textarea>
             </div>
             <button type="submit" class="btn btn-primary">Send message</button>
             <p class="form-status" id="form-status" role="status" aria-live="polite"></p>
@@ -251,10 +258,10 @@
 
   <footer class="site-footer">
     <div class="container footer-inner">
-      <p>&copy; <span id="year"></span> Mosaic. Placeholder product, real ambition.</p>
+      <p>&copy; <span id="year"></span> Reminisce — A taste of home, made with memory.</p>
       <nav aria-label="Footer">
         <a href="#about">About</a>
-        <a href="#product">Product</a>
+        <a href="#product">Our food</a>
       </nav>
     </div>
   </footer>
@@ -317,7 +324,7 @@
         <h2>Check your inbox</h2>
         <p class="auth-hint" id="email-sent-to"></p>
         <div class="email-preview">
-          <p class="email-preview-subject">Mosaic — reset your password</p>
+          <p class="email-preview-subject">Reminisce — reset your password</p>
           <p class="email-preview-body" id="email-preview-body"></p>
           <button type="button" class="btn btn-secondary" id="open-reset">Open reset page</button>
           <a class="mailto-reset" id="mailto-reset" href="#">Email myself the link</a>
