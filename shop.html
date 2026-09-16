@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Get in touch with Reminisce — the people behind the kitchen, and a quiet place to tell us your story." />
-  <title>Contact — Reminisce</title>
+  <meta name="description" content="Shop Reminisce — order Mohinga, family curries, and a taste of home, delivered warm." />
+  <title>Shop — Reminisce</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
@@ -56,70 +56,114 @@
   <main id="main">
     <section class="page-hero">
       <div class="container page-hero-inner">
-        <span class="eyebrow">Contact</span>
-        <h1 class="page-hero-title">The people behind the kitchen</h1>
+        <span class="eyebrow">Shop</span>
+        <h1 class="page-hero-title">Order your taste of home</h1>
         <p class="page-hero-sub">
-          We're cooks, keepers of recipes, and tasters in chief. Tell us what home tastes
-          like to you — we read everything.
+          Pick a dish, choose how many, and we'll have it warm at your door — cooked
+          fresh the morning it's eaten.
         </p>
       </div>
     </section>
 
-    <section class="section" id="team">
+    <section class="section" id="menu">
       <div class="container">
-        <span class="eyebrow">Team</span>
-        <h2 class="section-title">At the stove</h2>
-        <div class="grid-3">
-          <div class="card card-member">
-            <div class="avatar" aria-hidden="true">A</div>
-            <h3>Your name</h3>
-            <p class="muted">Head of the kitchen</p>
-          </div>
-          <div class="card card-member">
-            <div class="avatar" aria-hidden="true">B</div>
-            <h3>Teammate one</h3>
-            <p class="muted">Keeper of recipes</p>
-          </div>
-          <div class="card card-member">
-            <div class="avatar" aria-hidden="true">C</div>
-            <h3>Teammate two</h3>
-            <p class="muted">Taster in chief</p>
-          </div>
+        <span class="eyebrow">On the menu</span>
+        <h2 class="section-title">Choose your dishes</h2>
+
+        <div class="product-grid">
+          <article class="product-card" data-item="mohinga">
+            <div class="product-visual" aria-hidden="true">
+              <div class="tile tile-1"></div>
+              <div class="tile tile-2"></div>
+              <div class="tile tile-4"></div>
+            </div>
+            <div class="product-info">
+              <h3>Mohinga</h3>
+              <p class="dish-note">The national fish-noodle soup, served the old way.</p>
+              <p class="price"><span>$</span><span data-price>12</span></p>
+              <div class="buy-row">
+                <label class="qty-label" for="qty-mohinga">How many?</label>
+                <input class="qty-input" type="number" id="qty-mohinga" min="1" value="1" inputmode="numeric" />
+                <button type="button" class="btn btn-primary btn-add" data-add="mohinga">Add to order</button>
+              </div>
+            </div>
+          </article>
+
+          <article class="product-card" data-item="curry">
+            <div class="product-visual" aria-hidden="true">
+              <div class="tile tile-3"></div>
+              <div class="tile tile-1"></div>
+            </div>
+            <div class="product-info">
+              <h3>Northeastern curry</h3>
+              <p class="dish-note">A slow-cooked curry built on the flavors of home.</p>
+              <p class="price"><span>$</span><span data-price>16</span></p>
+              <div class="buy-row">
+                <label class="qty-label" for="qty-curry">How many?</label>
+                <input class="qty-input" type="number" id="qty-curry" min="1" value="1" inputmode="numeric" />
+                <button type="button" class="btn btn-primary btn-add" data-add="curry">Add to order</button>
+              </div>
+            </div>
+          </article>
+
+          <article class="product-card" data-item="laphet">
+            <div class="product-visual" aria-hidden="true">
+              <div class="tile tile-4"></div>
+              <div class="tile tile-2"></div>
+            </div>
+            <div class="product-info">
+              <h3>Tea leaf salad</h3>
+              <p class="dish-note">Laphet thoke — fermented tea leaf salad, bright and earthy.</p>
+              <p class="price"><span>$</span><span data-price>9</span></p>
+              <div class="buy-row">
+                <label class="qty-label" for="qty-laphet">How many?</label>
+                <input class="qty-input" type="number" id="qty-laphet" min="1" value="1" inputmode="numeric" />
+                <button type="button" class="btn btn-primary btn-add" data-add="laphet">Add to order</button>
+              </div>
+            </div>
+          </article>
         </div>
       </div>
     </section>
 
-    <section class="section section-alt section-team" id="contact">
+    <section class="section section-alt" id="checkout">
       <div class="container">
-        <span class="eyebrow">Contact</span>
-        <h2 class="section-title">Get in touch</h2>
-        <div class="get-in-touch">
-          <p class="section-lead">
-            Share the dish your home remembers — or just reach out. We'd love to hear from you.
-          </p>
-          <form class="contact-form" id="contact-form">
-            <div class="form-row">
-              <label for="name">Name</label>
-              <input type="text" id="name" name="name" placeholder="Jane Doe" required />
-            </div>
-            <div class="form-row">
-              <label for="email">Email</label>
-              <input type="email" id="email" name="email" placeholder="jane@example.com" required />
-            </div>
-            <div class="form-row">
-              <label for="message">Message</label>
-              <textarea id="message" name="message" rows="4" placeholder="Tell us what home tastes like to you." required></textarea>
-            </div>
-            <button type="submit" class="btn btn-primary">Send message</button>
-            <p class="form-status" id="form-status" role="status" aria-live="polite"></p>
-          </form>
-        </div>
+        <span class="eyebrow">Checkout</span>
+        <h2 class="section-title">Your order</h2>
 
-        <div class="inbox" id="inbox" hidden>
-          <h3>Inbox</h3>
-          <p class="section-lead">Messages saved in your local SQLite database.</p>
-          <button type="button" class="btn btn-secondary" id="inbox-refresh">Refresh</button>
-          <ul class="inbox-list" id="inbox-list"></ul>
+        <div class="shop-grid">
+          <div class="card cart-card">
+            <h3>Order summary</h3>
+            <ul class="cart-list" id="cart-list">
+              <li class="cart-empty" id="cart-empty">Your order is empty. Add a dish above.</li>
+            </ul>
+            <div class="cart-totals">
+              <div class="cart-row"><span>Subtotal</span><span id="cart-subtotal">$0.00</span></div>
+              <div class="cart-row"><span>Delivery</span><span id="cart-delivery">$0.00</span></div>
+              <div class="cart-row cart-total"><span>Total</span><span id="cart-total">$0.00</span></div>
+            </div>
+            <p class="muted" id="free-delivery">Free delivery on orders over $40.</p>
+          </div>
+
+          <div class="card checkout-card">
+            <h3>Delivery details</h3>
+            <form class="contact-form" id="order-form" novalidate>
+              <div class="form-row">
+                <label for="order-name">Name</label>
+                <input type="text" id="order-name" name="name" placeholder="Jane Doe" required />
+              </div>
+              <div class="form-row">
+                <label for="order-email">Email</label>
+                <input type="email" id="order-email" name="email" placeholder="jane@example.com" required />
+              </div>
+              <div class="form-row">
+                <label for="order-address">Delivery address</label>
+                <textarea id="order-address" name="address" rows="2" placeholder="Street, city, postcode" required></textarea>
+              </div>
+              <button type="submit" class="btn btn-primary">Place order</button>
+              <p class="form-status" id="order-status" role="status" aria-live="polite"></p>
+            </form>
+          </div>
         </div>
       </div>
     </section>
@@ -227,5 +271,6 @@
   </div>
 
   <script src="script.js"></script>
+  <script src="shop.js"></script>
 </body>
 </html>
