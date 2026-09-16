@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Reminisce — the taste of home. Recipes, memory, and the warmth that only a home kitchen can give you." />
-  <title>Reminisce — A taste of home</title>
+  <meta name="description" content="Our food — family recipes from the Reminisce kitchen, delivered warm." />
+  <title>Our food — Reminisce</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
@@ -53,85 +53,101 @@
   </header>
 
   <main id="main">
-    <section class="hero">
-      <div class="container hero-inner">
-        <span class="eyebrow">A taste of home</span>
-        <h1 class="hero-title">Every dish remembers a <span class="accent-word">home</span>.</h1>
-        <p class="hero-sub">
-          Reminisce brings the warmth of a family table to your door — recipes passed down,
-          cooked slowly, and shipped to the moment they taste like memory.
+    <section class="page-hero">
+      <div class="container page-hero-inner">
+        <span class="eyebrow">The menu</span>
+        <h1 class="page-hero-title">What we're cooking</h1>
+        <p class="page-hero-sub">
+          A rotating table of family recipes — small batches, cooked the old way,
+          and ready the moment they arrive.
         </p>
-        <div class="hero-actions">
-          <a href="food.html" class="btn btn-primary">Taste the menu</a>
-          <a href="team.html" class="btn btn-secondary">Tell us your story</a>
+      </div>
+    </section>
+
+    <section class="section" id="menu">
+      <div class="container">
+        <span class="eyebrow">Today's kitchen</span>
+        <h2 class="section-title">On the menu</h2>
+
+        <div class="product-grid">
+          <article class="product-card">
+            <div class="product-visual" aria-hidden="true">
+              <div class="tile tile-1"></div>
+              <div class="tile tile-2"></div>
+              <div class="tile tile-4"></div>
+            </div>
+            <div class="product-info">
+              <h3>Mohinga</h3>
+              <p class="dish-note">The national fish-noodle soup — served for breakfast the way it has been for generations.</p>
+              <ul class="feature-list">
+                <li>Catfish broth simmered with lemongrass and toasted rice</li>
+                <li>Tender rice noodles, egg, and crispy fritters</li>
+                <li>Finished with coriander, lime, and chili to taste</li>
+              </ul>
+              <a href="team.html" class="btn btn-primary">Order a taste</a>
+            </div>
+          </article>
+
+          <article class="product-card">
+            <div class="product-visual" aria-hidden="true">
+              <div class="tile tile-3"></div>
+              <div class="tile tile-1"></div>
+            </div>
+            <div class="product-info">
+              <h3>Today's memory: Northeastern curry</h3>
+              <p class="dish-note">A slow-cooked curry built on the flavors of home.</p>
+              <ul class="feature-list">
+                <li>Family recipe, passed down three generations</li>
+                <li>Slow-cooked in small, careful batches</li>
+                <li>Arrives warm, ready for your table</li>
+              </ul>
+              <a href="team.html" class="btn btn-primary">Order a taste</a>
+            </div>
+          </article>
         </div>
       </div>
     </section>
 
-    <section class="section" id="about">
+    <section class="section section-alt" id="delivery">
       <div class="container">
-        <span class="eyebrow">About</span>
-        <h2 class="section-title">Why Reminisce?</h2>
-        <div class="grid-2">
-          <div class="card">
-            <h3>Our story</h3>
-            <p>
-              Reminisce began on a slow afternoon in a small kitchen, frying what smelled like
-              childhood. Every recipe here is someone's memory — a grandmother's curry, a
-              mother's sweets — kept alive one plate at a time.
-            </p>
-          </div>
-          <div class="card">
-            <h3>Our mission</h3>
-            <p>
-              To give every home a dish that carries it back to another one. We cook with the
-              flavors we grew up on, so a single bite can feel like arriving somewhere you
-              belong.
-            </p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section class="section section-alt" id="problem">
-      <div class="container">
-        <span class="eyebrow">The gap</span>
-        <h2 class="section-title">The gap we close</h2>
-        <div class="grid-2">
-          <div>
-            <h3>The problem</h3>
-            <p>
-              Busy days pull us away from the table. Meals become quick and forgettable, and
-              the flavors of home slip out of reach — too far, too hard, too time-consuming to
-              find again.
-            </p>
-          </div>
-          <div>
-            <h3>Our solution</h3>
-            <p>
-              Reminisce captures those flavors and brings them to you — authentic family
-              recipes, cooked the way they've always been cooked, and delivered while the
-              warmth is still in them.
-            </p>
-          </div>
-        </div>
-        <div class="steps">
-          <div class="step">
-            <span class="step-num">01</span>
-            <p>Choose a dish that calls to you — something from your own table.</p>
-          </div>
-          <div class="step">
-            <span class="step-num">02</span>
-            <p>We cook it slow, the old way, in small batches, from real kitchens.</p>
-          </div>
-          <div class="step">
-            <span class="step-num">03</span>
-            <p>The box arrives warm, and one bite carries you home.</p>
-          </div>
-        </div>
-        <p class="page-lead">
-          <a href="food.html" class="btn btn-primary">See what we're cooking</a>
+        <span class="eyebrow">Delivery</span>
+        <h2 class="section-title">We bring it warm</h2>
+        <p class="section-lead">
+          Every order leaves our kitchen the morning it's eaten. No warehouses, no shortcuts —
+          just food timed to arrive the moment it tastes right.
         </p>
+        <div class="grid-3">
+          <div class="card card-mini">
+            <h3>Same-day from the kitchen</h3>
+            <p>Cooked fresh and dispatched within hours, every single day.</p>
+          </div>
+          <div class="card card-mini">
+            <h3>Tracked to your door</h3>
+            <p>Follow your order from our stove to your doorstep, live.</p>
+          </div>
+          <div class="card card-mini">
+            <h3>Warm on arrival</h3>
+            <p>Insulated and sealed so the first bite tastes like right now.</p>
+          </div>
+        </div>
+        <div class="shipping-locations">
+          <h3>Where we deliver</h3>
+          <ul class="locations">
+            <li>United States</li>
+            <li>Canada</li>
+            <li>United Kingdom</li>
+            <li>European Union</li>
+            <li>Australia</li>
+            <li>New Zealand</li>
+            <li>Japan</li>
+            <li>United Arab Emirates</li>
+            <li>South Africa</li>
+          </ul>
+          <p class="muted">
+            Edit this list in <code>food.html</code> to match your real delivery routes.
+            New cities are added every season.
+          </p>
+        </div>
       </div>
     </section>
   </main>

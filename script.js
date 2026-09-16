@@ -128,59 +128,62 @@ async function api(path, options = {}) {
 const form = document.getElementById("contact-form");
 const status = document.getElementById("form-status");
 
-async function submitLocalMessage(name, email, message) {
-  await api("/api/messages", { method: "POST", body: { name, email, message } });
-  status.textContent = "Message saved to the database. Thanks!";
-  status.className = "form-status success";
-  form.reset();
-  if (!document.getElementById("inbox").hidden) {
-    loadInbox();
-  }
-}
-
-function submitStaticMessage(name, email, message) {
-  const mailto = `mailto:hello@mosaic.example?subject=${encodeURIComponent(
-    `Mosaic enquiry from ${name}`
-  )}&body=${encodeURIComponent(`${message}\n\n— ${name} (${email})`)}`;
-
-  const sent = window.confirm(
-    "This demo opens your email app. Run 'node server.js' locally to save messages to a real SQLite database."
-  );
-  if (sent) {
-    window.location.href = mailto;
-  }
-
-  status.textContent = "Thanks! Your email app should open.";
-  status.className = "form-status success";
-  form.reset();
-}
-
-form.addEventListener("submit", async (event) => {
-  event.preventDefault();
-
-  const name = form.name.value.trim();
-  const email = form.email.value.trim();
-  const message = form.message.value.trim();
-
-  status.classList.remove("success", "error");
-
-  if (!name || !email || !message) {
-    status.textContent = "Please fill in all fields.";
-    status.className = "form-status error";
-    return;
-  }
-
-  try {
-    if (isLocal()) {
-      await submitLocalMessage(name, email, message);
-    } else {
-      submitStaticMessage(name, email, message);
+if (form && status) {
+  async function submitLocalMessage(name, email, message) {
+    await api("/api/messages", { method: "POST", body: { name, email, message } });
+    status.textContent = "Message saved to the database. Thanks!";
+    status.className = "form-status success";
+    form.reset();
+    const inboxEl = document.getElementById("inbox");
+    if (inboxEl && !inboxEl.hidden) {
+      loadInbox();
     }
-  } catch (err) {
-    status.textContent = err.message;
-    status.className = "form-status error";
   }
-});
+
+  function submitStaticMessage(name, email, message) {
+    const mailto = `mailto:hello@reminisce.example?subject=${encodeURIComponent(
+      `Reminisce enquiry from ${name}`
+    )}&body=${encodeURIComponent(`${message}\n\n— ${name} (${email})`)}`;
+
+    const sent = window.confirm(
+      "This demo opens your email app. Run 'node server.js' locally to save messages to a real SQLite database."
+    );
+    if (sent) {
+      window.location.href = mailto;
+    }
+
+    status.textContent = "Thanks! Your email app should open.";
+    status.className = "form-status success";
+    form.reset();
+  }
+
+  form.addEventListener("submit", async (event) => {
+    event.preventDefault();
+
+    const name = form.name.value.trim();
+    const email = form.email.value.trim();
+    const message = form.message.value.trim();
+
+    status.classList.remove("success", "error");
+
+    if (!name || !email || !message) {
+      status.textContent = "Please fill in all fields.";
+      status.className = "form-status error";
+      return;
+    }
+
+    try {
+      if (isLocal()) {
+        await submitLocalMessage(name, email, message);
+      } else {
+        submitStaticMessage(name, email, message);
+      }
+    } catch (err) {
+      status.textContent = err.message;
+      status.className = "form-status error";
+    }
+  });
+}
 
 /* Inbox (local mode only) */
 const inbox = document.getElementById("inbox");
@@ -197,7 +200,7 @@ function escapeHtml(value) {
 }
 
 async function loadInbox() {
-  if (!isLocal()) return;
+  if (!isLocal() || !inbox) return;
   try {
     const messages = await api("/api/messages");
     inbox.hidden = false;
@@ -219,7 +222,9 @@ async function loadInbox() {
   }
 }
 
-inboxRefresh.addEventListener("click", loadInbox);
+if (inboxRefresh && inboxList) {
+  inboxRefresh.addEventListener("click", loadInbox);
+}
 
 /* Account login */
 const STORAGE_KEY_USERS = "mosaic_users";
@@ -422,7 +427,7 @@ forgotForm.addEventListener("submit", async (event) => {
         ? `You requested a password reset. Click below to choose a new password. The link expires in 30 minutes.`
         : `If an account exists for ${email}, a reset link was sent. Check your spam folder.`;
 
-    mailtoReset.href = `mailto:${encodeURIComponent(email)}?subject=${encodeURIComponent("Mosaic — reset your password")}&body=${encodeURIComponent("You requested a Mosaic password reset. Use this link within 30 minutes:\n\n" + resetUrl)}`;
+    mailtoReset.href = `mailto:${encodeURIComponent(email)}?subject=${encodeURIComponent("Reminisce — reset your password")}&body=${encodeURIComponent("You requested a Reminisce password reset. Use this link within 30 minutes:\n\n" + resetUrl)}`;
     openResetBtn.disabled = !resetToken;
     openResetBtn.style.opacity = resetToken ? "1" : "0.4";
 
@@ -500,10 +505,10 @@ function renderAuthState() {
   if (isLocal()) {
     if (session) {
       loadInbox();
-    } else {
+    } else if (inbox) {
       inbox.hidden = true;
     }
-  } else {
+  } else if (inbox) {
     inbox.hidden = true;
   }
 }
