@@ -8,13 +8,13 @@
   --bg: #0d1210;
   --bg-alt: #111a16;
   --panel: #16211c;
-  --gold: #d9a441;
-  --gold-dim: #b98a32;
-  --gold-soft: rgba(217, 164, 65, 0.08);
-  --red: #a33b2e;
-  --cream: #ece3d0;
-  --muted: #a8b3ab;
-  --line: rgba(217, 164, 65, 0.16);
+  --gold: #ecbe5c;
+  --gold-dim: #cfa04a;
+  --gold-soft: rgba(236, 190, 92, 0.08);
+  --red: #e96e59;
+  --cream: #f1e8d9;
+  --muted: #b6aa96;
+  --line: rgba(236, 190, 92, 0.16);
   --serif: "Cormorant Garamond", Georgia, serif;
   --sans: "Inter", system-ui, -apple-system, sans-serif;
   --shadow: 0 14px 40px rgba(0, 0, 0, 0.4);
@@ -294,8 +294,8 @@ a:hover {
 
 .hero {
   position: relative;
-  background: radial-gradient(70% 60% at 50% 0%, rgba(217, 164, 65, 0.12), transparent 60%),
-              radial-gradient(50% 40% at 80% 15%, rgba(163, 59, 46, 0.06), transparent 60%);
+  background: radial-gradient(70% 60% at 50% 0%, rgba(236, 190, 92, 0.12), transparent 60%),
+              radial-gradient(50% 40% at 80% 15%, rgba(233, 110, 89, 0.06), transparent 60%);
   padding: 7rem 0 5rem;
   text-align: center;
   overflow: hidden;
@@ -356,7 +356,7 @@ a:hover {
 /* ---------- Inner page hero ---------- */
 
 .page-hero {
-  background: radial-gradient(70% 60% at 50% 0%, rgba(217, 164, 65, 0.12), transparent 60%);
+  background: radial-gradient(70% 60% at 50% 0%, rgba(236, 190, 92, 0.12), transparent 60%);
   padding: 4.5rem 0 3rem;
   text-align: center;
   border-bottom: 1px solid var(--line);
@@ -506,8 +506,8 @@ code {
   border: 1px solid var(--gold);
   border-radius: 1.2rem 0 1.2rem 0;
   background: var(--gold-soft);
-  box-shadow: 0 0 28px rgba(217, 164, 65, 0.18);
-  text-shadow: 0 0 20px rgba(217, 164, 65, 0.4);
+  box-shadow: 0 0 28px rgba(236, 190, 92, 0.18);
+  text-shadow: 0 0 20px rgba(236, 190, 92, 0.4);
 }
 
 .stepper {
@@ -771,7 +771,7 @@ code {
   position: relative;
   aspect-ratio: 1;
   border-radius: 14px 0 14px 0;
-  background: radial-gradient(circle at 30% 30%, rgba(217, 164, 65, 0.25), rgba(163, 59, 46, 0.12) 60%, transparent);
+  background: radial-gradient(circle at 30% 30%, rgba(236, 190, 92, 0.25), rgba(233, 110, 89, 0.12) 60%, transparent);
   overflow: hidden;
 }
 
@@ -782,13 +782,13 @@ code {
 }
 
 .tile-1 { width: 62%; height: 62%; left: 12%; top: 12%;
-  background: linear-gradient(135deg, #b98a32, #e0b45a); }
+  background: linear-gradient(135deg, #c79a43, #f0cf7a); }
 .tile-2 { width: 46%; height: 46%; right: 12%; bottom: 10%;
-  background: linear-gradient(135deg, #a33b2e, #d05a3c); }
+  background: linear-gradient(135deg, #d9644d, #f89a82); }
 .tile-3 { width: 26%; height: 26%; right: 20%; top: 14%;
   background: linear-gradient(135deg, #2f4a3d, #3f6b55); }
 .tile-4 { width: 20%; height: 20%; left: 20%; bottom: 18%;
-  background: radial-gradient(circle, #ece3d0, #bfae8c); }
+  background: radial-gradient(circle, #f1e8d9, #d9c9ab); }
 
 .product-info h3 {
   font-size: 1.7rem;
@@ -892,7 +892,7 @@ code {
   font-family: var(--serif);
   font-size: 1.5rem;
   font-weight: 600;
-  background: radial-gradient(circle at 35% 30%, rgba(217, 164, 65, 0.2), transparent 70%);
+  background: radial-gradient(circle at 35% 30%, rgba(236, 190, 92, 0.2), transparent 70%);
 }
 
 .card-member h3 {
